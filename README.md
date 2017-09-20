@@ -1,4 +1,4 @@
-### QFloatSlider
+### FloatSlider
 An extended QSlider from Qt that can express float value.
 
 ### Author
