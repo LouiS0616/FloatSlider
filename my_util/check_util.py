@@ -3,7 +3,7 @@ from typing import Callable
 numeric = (int, float)
 
 
-def check_type(instance, cor_type: type, purpose: str=''):
+def check_type(instance, cor_type, purpose: str=''):
     if isinstance(instance, cor_type):
         return instance
     else:

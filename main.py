@@ -1,9 +1,13 @@
 from slider.float_slider import FloatSlider
+from slider.slider_with_edit import SliderWithEdit
+
+from pprint import pprint
+from inspect import getmembers
 
 import sys
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QSlider
 
 
 @pyqtSlot(float)
@@ -14,8 +18,11 @@ def tmp_slot(value: float) -> None:
 def main():
     app = QApplication(sys.argv)
 
-    slider = FloatSlider((0, 100))
-    slider.show()
+    int_widget = SliderWithEdit(int)
+    int_widget.show()
+
+    float_widget = SliderWithEdit(float)
+    float_widget.show()
 
     sys.exit(app.exec_())
 

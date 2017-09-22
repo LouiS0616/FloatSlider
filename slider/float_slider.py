@@ -3,7 +3,7 @@ from my_util import *
 from enum import Enum
 
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
-from PyQt5.QtWidgets import QWidget, QSlider
+from PyQt5.QtWidgets import QWidget, QSlider, QHBoxLayout
 
 
 class FloatSlider(QWidget):
@@ -13,8 +13,8 @@ class FloatSlider(QWidget):
         VALUE_CHANGED = 0
         VALUE_DECIDED = 1
 
-    def __init__(self, val_range: tuple, ini_value: float=None, ini_ratio: float=.5,
-                 orientation: Qt.Orientation=Qt.Horizontal, parent: QWidget=None,
+    def __init__(self, val_range: tuple=(0., 99.), ini_value: float=None, ini_ratio: float=.5,
+                 orientation: Qt.Orientation=Qt.Vertical, parent: QWidget=None,
                  *, s_digit: int=2, emit_type: EmitType=EmitType.VALUE_DECIDED):
 
         QWidget.__init__(self, parent)
@@ -27,13 +27,20 @@ class FloatSlider(QWidget):
 
         if ini_value is None:
             check_value(ini_ratio, is_ratio)
-            self.set_value_by_ratio(ini_ratio)
+            # self.set_value_by_ratio(ini_ratio)
         else:
             self.set_value(ini_value)
 
+        layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self._slider)
+        self.setLayout(layout)
+
         self._slider.setOrientation(check_type(orientation, Qt.Orientation))
-        self.adjustSize()
         self._connect(emit_type)
+
+    def sizeHint(self):
+        return self._slider.sizeHint()
 
     @property
     def emit_type(self) -> EmitType:
