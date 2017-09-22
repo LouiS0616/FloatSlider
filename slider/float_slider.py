@@ -18,7 +18,7 @@ class FloatSlider(QWidget):
                  *, s_digit: int=2, emit_type: EmitType=EmitType.VALUE_DECIDED):
 
         QWidget.__init__(self, parent)
-        self._slider = QSlider(self)
+        self._slider = QSlider(parent=parent if parent is not None else self)
         self._s_digit = check_value(s_digit, cond=lambda x: x > 0)
 
         check_value(val_range, is_range)
@@ -32,6 +32,7 @@ class FloatSlider(QWidget):
             self.set_value(ini_value)
 
         self._slider.setOrientation(check_type(orientation, Qt.Orientation))
+        self.adjustSize()
         self._connect(emit_type)
 
     @property
