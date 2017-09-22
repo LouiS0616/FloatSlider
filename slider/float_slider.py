@@ -31,11 +31,7 @@ class FloatSlider(QWidget):
         else:
             self.set_value(ini_value)
 
-        layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self._slider)
-        self.setLayout(layout)
-
+        self.setLayout(SingleLayout(self._slider))
         self._slider.setOrientation(check_type(orientation, Qt.Orientation))
         self._connect(emit_type)
 
