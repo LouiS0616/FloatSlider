@@ -27,7 +27,7 @@ class FloatSlider(QWidget):
 
         if ini_value is None:
             check_value(ini_ratio, is_ratio)
-            # self.set_value_by_ratio(ini_ratio)
+            self.set_value_by_ratio(ini_ratio)
         else:
             self.set_value(ini_value)
 
