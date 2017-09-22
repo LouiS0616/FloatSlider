@@ -11,6 +11,8 @@ def tmp_slot(value: float) -> None:
 
 
 def main():
+    pass
+
     app = QApplication(sys.argv)
 
     dialog = QDialog(None)
