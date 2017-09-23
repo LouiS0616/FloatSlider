@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget, QSlider, QLineEdit, QHBoxLayout
 from .float_slider import FloatSlider
 
 
-class SliderWithEdit(QWidget):
+class SliderWithEditor(QWidget):
     def __init__(self, val_type: type, parent=None):
         QWidget.__init__(self, parent)
 
