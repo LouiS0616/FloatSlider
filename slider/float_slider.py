@@ -1,4 +1,4 @@
-from my_util import *
+from MyPyUtil.my_util import *
 
 from enum import Enum
 

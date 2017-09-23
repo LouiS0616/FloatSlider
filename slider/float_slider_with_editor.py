@@ -1,4 +1,4 @@
-from my_util import *
+from MyPyUtil.my_util import *
 
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLineEdit, QHBoxLayout
