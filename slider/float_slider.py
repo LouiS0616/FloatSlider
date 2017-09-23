@@ -13,7 +13,7 @@ class FloatSlider(QWidget):
         VALUE_CHANGED = 0
         VALUE_DECIDED = 1
 
-    def __init__(self, val_range: tuple=(0., 99.), ini_value: float=None, ini_ratio: float=.5,
+    def __init__(self, val_range: tuple=(0., 100.), ini_value: float=None, ini_ratio: float=.5,
                  orientation: Qt.Orientation=Qt.Vertical, parent: QWidget=None,
                  *, s_digit: int=2, emit_type: EmitType=EmitType.VALUE_DECIDED):
 
@@ -49,6 +49,9 @@ class FloatSlider(QWidget):
     @property
     def val_range(self) -> tuple:
         return self._val_range
+
+    def value(self) -> float:
+        return self._to_float(self._slider.value())
 
     def set_value(self, value: float):
         check_value(value, cond=lambda x: in_range(x, self._val_range))

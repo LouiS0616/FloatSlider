@@ -17,9 +17,20 @@ def check_value(value, cond: Callable):
         raise ValueError(str(value) + ' is not suited value.')
 
 
+def str_to_float(text: str) -> float:
+    check_type(text, str)
+    try:
+        return float(text)
+    except ValueError:
+        raise ValueError(text + ' cannot be interpreted as float.')
+
+
 def is_range(value: tuple) -> bool:
-    check_value(value, cond=lambda t: len(t) == 2 and t[0] < t[1])
-    return True
+    try:
+        check_value(value, cond=lambda t: len(t) == 2 and t[0] < t[1])
+        return True
+    except ValueError:
+        return False
 
 
 def in_range(value: numeric, val_range: tuple):

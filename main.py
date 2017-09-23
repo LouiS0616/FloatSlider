@@ -1,6 +1,8 @@
 from slider.float_slider import FloatSlider
 from slider.float_slider_with_editor import FloatSliderWithEditor
 
+from my_util import *
+
 from pprint import pprint
 from inspect import getmembers
 
@@ -18,8 +20,7 @@ def tmp_slot(value: float) -> None:
 def main():
     app = QApplication(sys.argv)
 
-    widget = FloatSliderWithEditor(float)
-    widget.is_editable_by_text = False
+    widget = FloatSliderWithEditor()
     widget.show()
 
     sys.exit(app.exec_())
