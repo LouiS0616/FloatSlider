@@ -1,15 +1,9 @@
-from slider.float_slider import FloatSlider
 from slider.float_slider_with_editor import FloatSliderWithEditor
-
-from my_util import *
-
-from pprint import pprint
-from inspect import getmembers
 
 import sys
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication, QSlider
+from PyQt5.QtWidgets import QApplication
 
 
 @pyqtSlot(float)

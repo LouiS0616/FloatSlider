@@ -3,7 +3,7 @@ from my_util import *
 from enum import Enum
 
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
-from PyQt5.QtWidgets import QWidget, QSlider, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QSlider
 
 
 class FloatSlider(QWidget):
