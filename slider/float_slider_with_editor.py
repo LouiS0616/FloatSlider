@@ -1,12 +1,14 @@
 from my_util import *
 
-from PyQt5.QtCore import Qt, pyqtSlot
-from PyQt5.QtWidgets import QWidget, QSlider, QLineEdit, QHBoxLayout, QSizePolicy
+from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
+from PyQt5.QtWidgets import QWidget, QLineEdit, QHBoxLayout
 from PyQt5.QtGui import QFont
 from .float_slider import FloatSlider
 
 
 class FloatSliderWithEditor(QWidget):
+    valueChanged = pyqtSignal(float)
+
     def __init__(self, float_slider: FloatSlider=None, parent=None):
         QWidget.__init__(self, parent)
 
@@ -34,6 +36,7 @@ class FloatSliderWithEditor(QWidget):
     @pyqtSlot(float)
     def slider_changed(self, value: float) -> None:
         self._editor.setText(str(value))
+        self.valueChanged.emit(value)
 
     @pyqtSlot()
     def editor_return_pressed(self) -> None:
@@ -49,7 +52,7 @@ class FloatSliderWithEditor(QWidget):
             pass
 
     @property
-    def slider(self):
+    def slider(self) -> FloatSlider:
         return self._slider
 
     @property

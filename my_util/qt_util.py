@@ -24,11 +24,13 @@ def set_horizontal_ratio(widget: QWidget, ratio: int):
     widget.setSizePolicy(policy)
 
 
+def set_policy_fix(widget: QWidget):
+    check_type(widget, QWidget)
+    widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+
 class SingleLayout(QHBoxLayout):
     def __init__(self, widget: QWidget):
         QHBoxLayout.__init__(self)
         self.setContentsMargins(0, 0, 0, 0)
         self.addWidget(widget)
-
-
-SIZE_FIXED = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
