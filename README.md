@@ -1,5 +1,5 @@
 ### FloatSlider
-A wrapper of QSlider from Qt to express float value.
+A wrapper class of QSlider from Qt that can express float value.
 
 ### Author
 Loui Sakaki, Japanese.
