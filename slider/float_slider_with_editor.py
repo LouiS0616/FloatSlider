@@ -33,6 +33,9 @@ class FloatSliderWithEditor(QWidget):
         layout.addWidget(self._editor)
         self.setLayout(layout)
 
+    def value(self) -> float:
+        return self._slider.value()
+
     @pyqtSlot(float)
     def slider_changed(self, value: float) -> None:
         self._editor.setText(str(value))
