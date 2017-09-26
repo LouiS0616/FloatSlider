@@ -38,17 +38,26 @@ class FloatSlider(QWidget):
     def sizeHint(self):
         return self._slider.sizeHint()
 
-    def set_range(self, arg_range) -> None:
-        check_value(arg_range, is_range)
-        arg_range = try_to_map(self._to_int, arg_range)
-        self._slider.setRange(*arg_range)
+    def set_range(self, *arg_range) -> bool:
+        arg_range = (
+            self._val_range[0] if arg_range[0] is None else arg_range[0],
+            self._val_range[1] if arg_range[1] is None else arg_range[1]
+        )
 
-    def set_max(self, max_limit) -> None:
-        min_limit = self._to_float(self._slider.minimum())
-        check_type(max_limit, float)
-        check_value((min_limit, max_limit), is_range)
-        self.set_range((min_limit, max_limit))
+        if is_range(arg_range):
+            self._val_range = arg_range
+            self._slider.setRange(
+                *try_to_map(self._to_int, arg_range)
+            )
+            return True
+        else:
+            return False
 
+    def set_max(self, max_limit) -> bool:
+        return self.set_range(None, max_limit)
+
+    def set_min(self, min_limit) -> bool:
+        return self.set_range(min_limit, None)
 
     @property
     def emit_type(self) -> EmitType:
