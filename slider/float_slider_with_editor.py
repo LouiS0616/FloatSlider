@@ -25,27 +25,29 @@ class FloatSliderWithEditor(QWidget):
         self._editor.setFont(QFont('Consolas'))
         set_horizontal_ratio(self._editor, 1)
 
-        connect(self._slider.valueChanged, self.slider_changed)
-        connect(self._editor.returnPressed, self.editor_return_pressed)
+        connect(self._slider.valueChanged, self._slider_changed)
+        connect(self._editor.returnPressed, self._editor_return_pressed)
 
         layout = QHBoxLayout()
         layout.addWidget(self._slider)
         layout.addWidget(self._editor)
         self.setLayout(layout)
 
-    def value(self) -> float:
-        return self._slider.value()
+    @property
+    def slider(self) -> FloatSlider:
+        return self._slider
 
-    def set_value(self, value) -> None:
-        self._slider.set_value(value)
+    @property
+    def editor(self) -> QLineEdit:
+        return self._editor
 
     @pyqtSlot(float)
-    def slider_changed(self, value: float) -> None:
+    def _slider_changed(self, value: float) -> None:
         self._editor.setText(str(value))
         self.valueChanged.emit(value)
 
     @pyqtSlot()
-    def editor_return_pressed(self) -> None:
+    def _editor_return_pressed(self) -> None:
         text = self._editor.text()
 
         # input is 'max=float'
