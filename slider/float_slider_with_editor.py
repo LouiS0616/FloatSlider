@@ -41,6 +41,9 @@ class FloatSliderWithEditor(QWidget):
                 button.setFont(QFont('consolas', pointSize=16))
                 button.setFixedSize(24, 24)
                 set_policy_fix(button)
+
+            connect(self._button['+'].clicked, self._make_button_pressed(+self._delta_ratio_when_use_button))
+            connect(self._button['-'].clicked, self._make_button_pressed(-self._delta_ratio_when_use_button))
             layout.addWidget(self._button['-'])
             layout.addWidget(self._button['+'])
 
@@ -103,10 +106,11 @@ class FloatSliderWithEditor(QWidget):
             pass
 
     def _make_button_pressed(self, delta_ratio: float):
-        @pyqtSlot()
-        def _button_pressed():
-            pass
-
+        @pyqtSlot(bool)
+        def _button_pressed(_):
+            self._slider.set_value_by_ratio(
+                self._slider.value_by_ratio() + delta_ratio
+            )
         return _button_pressed
 
     def _set_slider_value(self, value: float) -> None:

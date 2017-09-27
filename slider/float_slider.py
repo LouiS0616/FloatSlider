@@ -76,11 +76,15 @@ class FloatSlider(QWidget):
 
     def set_value(self, value: float):
         check_value(value, cond=lambda x: in_range(x, self._val_range))
+        value = round(value, self._s_digit)
         self._slider.setValue(self._to_int(value))
         self.valueChanged.emit(value)
 
+    def value_by_ratio(self) -> float:
+        return compute_ratio_by_value_and_range(self.value(), self._val_range)
+
     def set_value_by_ratio(self, ratio: float):
-        check_value(ratio, cond=is_ratio)
+        ratio = max(0.0, min(1.0, ratio))
         self.set_value(compute_value_by_ratio_and_range(ratio, self._val_range))
 
     def _to_float(self, value):
