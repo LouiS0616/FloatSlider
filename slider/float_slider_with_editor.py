@@ -1,7 +1,7 @@
 from MyPyUtil.my_util import *
 
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
-from PyQt5.QtWidgets import QWidget, QLineEdit, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QPushButton
 from PyQt5.QtGui import QFont
 from .float_slider import FloatSlider
 
@@ -9,7 +9,9 @@ from .float_slider import FloatSlider
 class FloatSliderWithEditor(QWidget):
     valueChanged = pyqtSignal(float)
 
-    def __init__(self, float_slider: FloatSlider=None, parent=None):
+    def __init__(self, float_slider: FloatSlider=None,
+                 make_button: bool=True, delta_ratio_when_use_button: float=.05, parent=None):
+
         QWidget.__init__(self, parent)
 
         if isinstance(float_slider, FloatSlider):
@@ -22,7 +24,7 @@ class FloatSliderWithEditor(QWidget):
 
         self._editor = QLineEdit(str(self._slider.value()), parent=self)
         self._editor.setAlignment(Qt.AlignRight)
-        self._editor.setFont(QFont('Consolas'))
+        self._editor.setFont(QFont('consolas'))
         set_horizontal_ratio(self._editor, 1)
 
         connect(self._slider.valueChanged, self._slider_changed)
@@ -31,6 +33,17 @@ class FloatSliderWithEditor(QWidget):
         layout = QHBoxLayout()
         layout.addWidget(self._slider)
         layout.addWidget(self._editor)
+
+        self._delta_ratio_when_use_button = delta_ratio_when_use_button
+        if make_button:
+            self._button = {'+': QPushButton('+'), '-': QPushButton('-')}
+            for button in self._button.values():
+                button.setFont(QFont('consolas', pointSize=16))
+                button.setFixedSize(24, 24)
+                set_policy_fix(button)
+            layout.addWidget(self._button['-'])
+            layout.addWidget(self._button['+'])
+
         self.setLayout(layout)
 
     @property
@@ -88,6 +101,13 @@ class FloatSliderWithEditor(QWidget):
             )
         except ValueError:
             pass
+
+    def _make_button_pressed(self, delta_ratio: float):
+        @pyqtSlot()
+        def _button_pressed():
+            pass
+
+        return _button_pressed
 
     def _set_slider_value(self, value: float) -> None:
         self._slider.set_value(value)
