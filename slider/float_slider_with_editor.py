@@ -44,6 +44,8 @@ class FloatSliderWithEditor(QWidget):
 
             connect(self._button['+'].clicked, self._make_button_pressed(+self._delta_ratio_when_use_button))
             connect(self._button['-'].clicked, self._make_button_pressed(-self._delta_ratio_when_use_button))
+            self._button['-'].setFocusPolicy(Qt.NoFocus)
+            self._button['+'].setFocusPolicy(Qt.NoFocus)
             layout.addWidget(self._button['-'])
             layout.addWidget(self._button['+'])
 
