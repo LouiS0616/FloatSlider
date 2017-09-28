@@ -2,12 +2,13 @@ from MyPyUtil.my_util import *
 
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QPushButton
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QKeyEvent
 from .float_slider import FloatSlider
 
 
 class FloatSliderWithEditor(QWidget):
     valueChanged = pyqtSignal(float)
+    functionKeyPressed = pyqtSignal(int)
 
     def __init__(self, float_slider: FloatSlider=None,
                  make_button: bool=True, delta_ratio_when_use_button: float=.05, parent=None):
@@ -49,7 +50,16 @@ class FloatSliderWithEditor(QWidget):
             layout.addWidget(self._button['-'])
             layout.addWidget(self._button['+'])
 
+            connect(self.functionKeyPressed, self._function_key_pressed)
+
         self.setLayout(layout)
+
+    def keyPressEvent(self, key_event: QKeyEvent):
+        f_number = key_event.key() - 16777263
+        if 1 <= f_number <= 12:
+            self.functionKeyPressed.emit(f_number)
+        else:
+            self._editor.keyPressEvent(key_event)
 
     @property
     def slider(self) -> FloatSlider:
@@ -101,9 +111,7 @@ class FloatSliderWithEditor(QWidget):
         # input is 'max'
         # input is 'min'
         if text == 'max' or text == 'min':
-            self._slider.set_value(
-                self._slider.val_range[0 if text == 'min' else 1]
-            )
+            self._slider.set_value_by_ratio(1. if text == 'max' else 0.)
             return
 
         # input is 'init'
@@ -120,6 +128,21 @@ class FloatSliderWithEditor(QWidget):
             )
         except ValueError:
             pass
+
+    @pyqtSlot(int)
+    def _function_key_pressed(self, f_number: int) -> None:
+        if False:
+            pass
+        elif f_number == 1:
+            self._slider.set_value_by_ratio(0.)
+        elif f_number == 2:
+            self._button['-'].animateClick()
+        elif f_number == 3:
+            self._slider.set_value(self._slider.initial_value())
+        elif f_number == 4:
+            self._button['+'].animateClick()
+        elif f_number == 5:
+            self._slider.set_value_by_ratio(1.)
 
     def _make_button_pressed(self, delta_ratio: float):
         @pyqtSlot(bool)
