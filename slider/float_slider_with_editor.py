@@ -70,14 +70,21 @@ class FloatSliderWithEditor(QWidget):
         search_result = search_indication_to_set_float_value('max', text)
         if search_result:
             if self._slider.set_max(float(search_result.group(0))):
-                self._set_slider_value(self._slider.val_range[1])
+                self._slider.set_value(self._slider.val_range[1])
             return
 
         # input is 'min=float'
         search_result = search_indication_to_set_float_value('min', text)
         if search_result:
             if self._slider.set_min(float(search_result.group(0))):
-                self._set_slider_value(self._slider.val_range[0])
+                self._slider.set_value(self._slider.val_range[0])
+            return
+
+        # input is 'init=float'
+        search_result = search_indication_to_set_float_value('init', text)
+        if search_result:
+            if self._slider.set_initial_value(float(search_result.group(0))):
+                self._slider.set_value(self._slider.initial_value())
             return
 
         """
@@ -92,14 +99,21 @@ class FloatSliderWithEditor(QWidget):
         # input is 'max'
         # input is 'min'
         if text == 'max' or text == 'min':
-            self._set_slider_value(
+            self._slider.set_value(
                 self._slider.val_range[0 if text == 'min' else 1]
+            )
+            return
+
+        # input is 'init'
+        if text == 'init':
+            self._slider.set_value(
+                self._slider.initial_value()
             )
             return
 
         # input is value
         try:
-            self._set_slider_value(
+            self._slider.set_value(
                 str_to_float(text)
             )
         except ValueError:
@@ -112,6 +126,3 @@ class FloatSliderWithEditor(QWidget):
                 self._slider.value_by_ratio() + delta_ratio
             )
         return _button_pressed
-
-    def _set_slider_value(self, value: float) -> None:
-        self._slider.set_value(value)

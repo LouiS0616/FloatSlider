@@ -30,6 +30,7 @@ class FloatSlider(QWidget):
             self.set_value_by_ratio(ini_ratio)
         else:
             self.set_value(ini_value)
+        self._initial_value = self.value()
 
         self.setLayout(SingleLayout(self._slider))
         self._slider.setOrientation(check_type(orientation, Qt.Orientation))
@@ -58,6 +59,15 @@ class FloatSlider(QWidget):
 
     def set_min(self, min_limit) -> bool:
         return self.set_range(min_limit, None)
+
+    def initial_value(self) -> float:
+        return self._initial_value
+
+    def set_initial_value(self, value: float) -> bool:
+        if in_range(value, self._val_range):
+            self._initial_value = value
+            return True
+        return False
 
     @property
     def emit_type(self) -> EmitType:
