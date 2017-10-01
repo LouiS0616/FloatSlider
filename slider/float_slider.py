@@ -85,7 +85,10 @@ class FloatSlider(QWidget):
         return self._to_float(self._slider.value())
 
     def set_value(self, value: float):
-        check_value(value, cond=lambda x: in_range(x, self._val_range))
+        try:
+            check_value(value, cond=lambda x: in_range(x, self._val_range))
+        except ValueError:
+            return
         value = round(value, self._s_digit)
         self._slider.setValue(self._to_int(value))
         self.valueChanged.emit(value)
